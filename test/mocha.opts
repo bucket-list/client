@@ -1,0 +1,4 @@
+--reporter spec
+--require test/mocha
+--timeout 30000
+--ui bdd

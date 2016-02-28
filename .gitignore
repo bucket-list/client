@@ -1,0 +1,12 @@
+#project
+.env
+
+# IDEA
+.idea
+
+# Mac
+.DS_Store
+
+# NODE
+node_modules
+
