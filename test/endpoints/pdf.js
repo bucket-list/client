@@ -2,7 +2,7 @@
 
 import debug from "debug";
 import assert from "power-assert";
-import {mockInChain, cleanUp} from "abl-test-utils/build/flow";
+import {mockInChain, cleanUp} from "abl-common/build/test-utils/flow";
 import Client from "../../source/index";
 
 
@@ -23,7 +23,7 @@ describe("Controller PDF", () => {
 				model: "Location",
 				count: 1
 			}, {
-				model: "User",
+				model: "Operator",
 				requires: {
 					ApiKey: "o2o",
 					Location: "o2o",
@@ -33,13 +33,13 @@ describe("Controller PDF", () => {
 			}, {
 				model: "Answer",
 				requires: {
-					User: "m2o"
+					Operator: "m2o"
 				},
 				count: 2
 			}, {
 				model: "Guide",
 				requires: {
-					User: "m2o"
+					Operator: "m2o"
 				},
 				count: 2
 			}, {
@@ -66,7 +66,7 @@ describe("Controller PDF", () => {
 			}, {
 				model: "Booking",
 				requires: {
-					User: "m2o",
+					Operator: "m2o",
 					Transaction: "o2o",
 					Answer: [[0], [0, 1], []]
 				},
@@ -74,7 +74,7 @@ describe("Controller PDF", () => {
 			}, {
 				model: "Event",
 				requires: {
-					User: "o2o",
+					Operator: "o2o",
 					Guide: "o2m",
 					Booking: "o2m"
 				},
@@ -82,14 +82,14 @@ describe("Controller PDF", () => {
 			}, {
 				model: "TimeSlot",
 				requires: {
-					User: "o2o",
+					Operator: "o2o",
 					Event: "o2o"
 				},
 				count: 1
 			}, {
 				model: "Activity",
 				requires: {
-					User: "o2o",
+					Operator: "o2o",
 					TimeSlot: "o2o",
 					Location: "o2o"
 				},

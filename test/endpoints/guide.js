@@ -5,7 +5,7 @@ import assert from "power-assert";
 import moment from "moment";
 import {testDate} from "abl-constants/build/date";
 import {getEventId} from "abl-utils/build/event";
-import {mockInChain, cleanUp} from "abl-test-utils/build/flow";
+import {mockInChain, cleanUp} from "abl-common/build/test-utils/flow";
 import Client from "../../source/index";
 
 
@@ -20,7 +20,7 @@ describe("Controller Guide", () => {
 				model: "ApiKey",
 				count: 1
 			}, {
-				model: "User",
+				model: "Operator",
 				requires: {
 					ApiKey: "o2o"
 				},
@@ -28,13 +28,13 @@ describe("Controller Guide", () => {
 			}, {
 				model: "Guide",
 				requires: {
-					User: "m2o"
+					Operator: "m2o"
 				},
 				count: 4
 			}, {
 				model: "Event",
 				requires: {
-					User: "m2o",
+					Operator: "m2o",
 					Guide: [[], [1], [1], [3]]
 				},
 				data: [{
@@ -55,7 +55,7 @@ describe("Controller Guide", () => {
 			}, {
 				model: "TimeSlot",
 				requires: {
-					User: "m2o",
+					Operator: "m2o",
 					Guide: [[0], [1], [2], []],
 					Event: "o2o"
 				},

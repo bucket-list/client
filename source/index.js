@@ -52,7 +52,7 @@ export default class Client {
 				"Origin": this.baseUrl,
 				"Content-Type": "application/json; charset=utf-8"
 			}
-		}, function (error, response, body) {
+		}, (error, response, body) => {
 			if (error) {
 				defer.reject(error);
 			} else if (response.statusCode !== 200) {
