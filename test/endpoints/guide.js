@@ -2,7 +2,7 @@
 
 import debug from "debug";
 import assert from "power-assert";
-import moment from "moment";
+import moment from "abl-constants/build/moment";
 import {testDate} from "abl-constants/build/date";
 import {getEventId} from "abl-utils/build/event";
 import {mockInChain, cleanUp} from "abl-common/build/test-utils/flow";

@@ -16,24 +16,24 @@ const log = debug("abl-client:request");
 
 export default class Client {
 
-	constructor(publicKey, secretKey) {
+	constructor(publicKey, privateKey) {
 		const keyLength = 64;
 
 		if (!publicKey || publicKey.length !== keyLength) {
-			throw new Error(`API Key parameter must be specified and be of length ${keyLength} characters`);
+			throw new Error(`API Public Key parameter must be specified and be of length ${keyLength} characters`);
 		}
 
-		if (!secretKey || secretKey.length !== keyLength) {
-			throw new Error(`API Secret parameter must be specified and be of length ${keyLength} characters`);
+		if (!privateKey || privateKey.length !== keyLength) {
+			throw new Error(`API Private Key parameter must be specified and be of length ${keyLength} characters`);
 		}
 
 		this.publicKey = publicKey;
-		this.secretKey = secretKey;
+		this.privateKey = privateKey;
 		this.baseUrl = "http://localhost:8000/";
 	}
 
 	makeJSONRequest(type, url, data = {}) {
-		const date = Date.now();
+		const timestamp = Date.now();
 		const post = type === "PATCH" || type === "POST" || type === "PUT";
 		const defer = q.defer();
 
@@ -47,8 +47,8 @@ export default class Client {
 			json: true,
 			headers: {
 				"X-ABL-Access-Key": this.publicKey,
-				"X-ABL-Signature": sign(this.secretKey, getUrl("/" + url, data), date),
-				"X-ABL-Date": date,
+				"X-ABL-Signature": sign(this.privateKey, getUrl("/" + url, data), timestamp),
+				"X-ABL-Date": timestamp,
 				"Origin": this.baseUrl,
 				"Content-Type": "application/json; charset=utf-8"
 			}
@@ -190,6 +190,6 @@ export default class Client {
 	}
 
 	book(data) {
-		return this.makeJSONRequest("GET", "/api/v1/bookings", data);
+		return this.makeJSONRequest("POST", "bookings", data);
 	}
 }

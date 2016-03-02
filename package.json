@@ -1,6 +1,6 @@
 {
   "name": "abl-client",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": "MIT",
   "title": "ABL - Client",
   "description": "description",
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "abl-common": "git+ssh://github.com/bucket-list/common.git#0.0.6",
+    "abl-connect": "git+ssh://github.com/bucket-list/connect.git#0.2.0",
     "babel-cli": "6.5.1",
     "babel-core": "6.5.2",
     "babel-plugin-espower": "2.1.2",
