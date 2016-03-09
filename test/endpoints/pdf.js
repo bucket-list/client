@@ -48,19 +48,19 @@ describe("Controller PDF", () => {
 					charges: [{
 						type: "addon",
 						name: "hamburger",
-						amount: 10
+						amount: 10 * 100
 					}, {
 						type: "addon",
 						name: "cola",
-						amount: 10
+						amount: 10 * 100
 					}, {
 						type: "aap",
 						name: "Adult",
-						amount: 300
+						amount: 300 * 100
 					}, {
 						type: "aap",
 						name: "Child",
-						amount: 100
+						amount: 100 * 100
 					}]
 				}, {}, {}]
 			}, {
@@ -70,7 +70,9 @@ describe("Controller PDF", () => {
 					Transaction: "o2o",
 					Answer: [[0], [0, 1], []]
 				},
-				count: 3
+				data: [{}, {
+					checkin: new Date()
+				}, {}]
 			}, {
 				model: "Event",
 				requires: {

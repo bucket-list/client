@@ -26,7 +26,7 @@
     "request": "2.69.0"
   },
   "devDependencies": {
-    "abl-common": "git+ssh://github.com/bucket-list/common.git#0.0.6",
+    "abl-common": "git+ssh://github.com/bucket-list/common.git#6.1.2",
     "abl-connect": "git+ssh://github.com/bucket-list/connect.git#0.2.0",
     "babel-cli": "6.5.1",
     "babel-core": "6.5.2",
