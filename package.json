@@ -37,6 +37,7 @@
     "node": ">=5.0.0"
   },
   "scripts": {
+    "postinstall": "babel -d ./build ./source",
     "pull": "git checkout master && git pull origin master",
     "push": "git push origin master --tags && exit 0 && npm publish",
     "commit": "git commit -a -m ${1}",
