@@ -39,6 +39,6 @@
   "scripts": {
     "build": "rm -rf build && babel -d ./build ./source",
     "lint": "eslint source/* test/*",
-    "test": "NODE_ENV=${NODE_ENV:=test} ABL_DEBUG=${ABL_DEBUG:=true} env $(<.env) node_modules/.bin/babel-node node_modules/.bin/_mocha"
+    "test": "NODE_ENV=${NODE_ENV:=test} ABL_DEBUG=${ABL_DEBUG:=true} env $(cat .env | xargs) node_modules/.bin/babel-node node_modules/.bin/_mocha"
   }
 }
