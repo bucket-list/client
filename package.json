@@ -28,11 +28,7 @@
   "devDependencies": {
     "abl-common": "git+ssh://github.com/bucket-list/common.git#6.1.2",
     "abl-connect": "git+ssh://github.com/bucket-list/connect.git#0.2.0",
-    "babel-cli": "6.5.1",
-    "babel-core": "6.5.2",
-    "babel-plugin-espower": "2.1.2",
-    "babel-preset-es2015": "6.5.0",
-    "babel-preset-stage-0": "6.5.0",
+    "babel-config-trejgun": "git://github.com/TrejGun/babel-config-trejgun.git#v0.0.3",
     "eslint-config-trejgun": "git://github.com/TrejGun/eslint-config-trejgun.git#0.0.2",
     "mocha": "2.4.5",
     "power-assert": "1.2.0"
