@@ -39,7 +39,7 @@
   "scripts": {
     "postinstall": "babel -d ./build ./source",
     "pull": "git checkout master && git pull origin master",
-    "push": "git push origin master --tags && exit 0 && npm publish",
+    "push": "git push origin master --tags && npm publish",
     "commit": "git commit -a -m ${1}",
     "release": "release () { npm run pull && if [ -z $1 ]; then npm version patch; else npm version $1; fi && npm run push; }; release",
     "build": "rm -rf build && babel -d ./build ./source",
