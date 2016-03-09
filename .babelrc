@@ -1,6 +1,3 @@
 {
-  "presets": [
-    "es2015",
-    "stage-0"
-  ]
+  "extends": "babel-config-trejgun/rules/server-test.json"
 }
