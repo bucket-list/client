@@ -6,11 +6,11 @@ import {mockInChain, cleanUp} from "abl-common/build/test-utils/flow";
 import Client from "../../source/index";
 
 
-const log = debug("test:pdf");
+const log = debug("test:csv");
 
 let data;
 
-describe("Controller PDF", () => {
+describe("Controller CSV", () => {
 	describe("#roster", () => {
 		before(() =>
 			mockInChain([{
@@ -110,7 +110,7 @@ describe("Controller PDF", () => {
 
 		it("should download roster", () => {
 			const client = new Client(data.ApiKey[0].publicKey, data.ApiKey[0].privateKey);
-			return client.getPDFRoaster({eventInstanceId: data.Event[0].eventInstanceId})
+			return client.getCSVRoaster({eventInstanceId: data.Event[0].eventInstanceId})
 				.then(() => {
 					assert(true);
 					log("OK");

@@ -1,5 +1,6 @@
 #project
 .env
+test.js
 
 # IDEA
 .idea
@@ -9,4 +10,4 @@
 
 # NODE
 node_modules
-
+npm-debug.log

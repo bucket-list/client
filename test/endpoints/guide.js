@@ -2,8 +2,8 @@
 
 import debug from "debug";
 import assert from "power-assert";
-import moment from "abl-constants/build/moment";
-import {testDate} from "abl-constants/build/date";
+import moment from "moment-config-trejgun";
+import {testTime} from "abl-constants/build/date";
 import {getEventId} from "abl-utils/build/event";
 import {mockInChain, cleanUp} from "abl-common/build/test-utils/flow";
 import Client from "../../source/index";
@@ -39,16 +39,16 @@ describe("Controller Guide", () => {
 				},
 				data: [{
 					title: "My event Title",
-					startTime: moment(testDate).add(3, "d").add(0, "m").toDate(),
-					endTime: moment(testDate).add(3, "d").add(5, "m").toDate()
+					startTime: moment(testTime).add(3, "d").add(0, "m").toDate(),
+					endTime: moment(testTime).add(3, "d").add(5, "m").toDate()
 				}, {
 					title: "My event Title",
-					startTime: moment(testDate).add(3, "d").add(0, "m").toDate(),
-					endTime: moment(testDate).add(3, "d").add(5, "m").toDate()
+					startTime: moment(testTime).add(3, "d").add(0, "m").toDate(),
+					endTime: moment(testTime).add(3, "d").add(5, "m").toDate()
 				}, {
 					title: "My event Title",
-					startTime: moment(testDate).add(3, "d").add(0, "m").toDate(),
-					endTime: moment(testDate).add(3, "d").add(5, "m").toDate()
+					startTime: moment(testTime).add(3, "d").add(0, "m").toDate(),
+					endTime: moment(testTime).add(3, "d").add(5, "m").toDate()
 				}, {
 					title: "My event Title"
 				}]
@@ -60,17 +60,17 @@ describe("Controller Guide", () => {
 					Event: "o2o"
 				},
 				data: [{
-					startTime: moment(testDate).add(1, "d").add(0, "m").toDate(),
-					endTime: moment(testDate).add(1, "d").add(5, "m").toDate(),
-					untilTime: moment(testDate).add(5, "d").add(5, "m").toDate()
+					startTime: moment(testTime).add(1, "d").add(0, "m").toDate(),
+					endTime: moment(testTime).add(1, "d").add(5, "m").toDate(),
+					untilTime: moment(testTime).add(5, "d").add(5, "m").toDate()
 				}, {
-					startTime: moment(testDate).add(1, "d").add(0, "m").toDate(),
-					endTime: moment(testDate).add(1, "d").add(5, "m").toDate(),
-					untilTime: moment(testDate).add(5, "d").add(5, "m").toDate()
+					startTime: moment(testTime).add(1, "d").add(0, "m").toDate(),
+					endTime: moment(testTime).add(1, "d").add(5, "m").toDate(),
+					untilTime: moment(testTime).add(5, "d").add(5, "m").toDate()
 				}, {
-					startTime: moment(testDate).add(1, "d").add(0, "m").toDate(),
-					endTime: moment(testDate).add(1, "d").add(5, "m").toDate(),
-					untilTime: moment(testDate).add(50, "d").add(5, "m").toDate()
+					startTime: moment(testTime).add(1, "d").add(0, "m").toDate(),
+					endTime: moment(testTime).add(1, "d").add(5, "m").toDate(),
+					untilTime: moment(testTime).add(50, "d").add(5, "m").toDate()
 				}, {}]
 			}])
 				.then(result => {
@@ -80,7 +80,7 @@ describe("Controller Guide", () => {
 
 		it("should get guides events (timeslot 1 + event 1) +dateRange[start]", () => {
 			const client = new Client(data.ApiKey[0].publicKey, data.ApiKey[0].privateKey);
-			return client.getGuidesEvents({_id: data.Guide[1]._id, dateRange: [moment(testDate).tz("UTC").add(3, "d").add(0, "m").format()]})
+			return client.getGuidesEvents({_id: data.Guide[1]._id, dateRange: [moment(testTime).tz("UTC").add(3, "d").add(0, "m").format()]})
 				.then(response => {
 					log("OK", response);
 					assert.equal(response.events.length, 4);
@@ -96,7 +96,7 @@ describe("Controller Guide", () => {
 
 		it("should get guides events (timeslot 1 + event 1) +dateRange[start,end]", () => {
 			const client = new Client(data.ApiKey[0].publicKey, data.ApiKey[0].privateKey);
-			return client.getGuidesEvents({_id: data.Guide[1]._id, dateRange: [moment(testDate).tz("UTC").add(3, "d").add(0, "m").format(), moment(testDate).tz("UTC").add(3, "d").add(5, "m").format()]})
+			return client.getGuidesEvents({_id: data.Guide[1]._id, dateRange: [moment(testTime).tz("UTC").add(3, "d").add(0, "m").format(), moment(testTime).tz("UTC").add(3, "d").add(5, "m").format()]})
 				.then(response => {
 					log("OK", response);
 					assert.equal(response.events.length, 2);

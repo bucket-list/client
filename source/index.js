@@ -29,7 +29,8 @@ export default class Client {
 
 		this.publicKey = publicKey;
 		this.privateKey = privateKey;
-		this.baseUrl = "http://localhost:8000/";
+		this.baseUrl = "http://localhost:8001";
+		this.prefix = "/api/v1/";
 	}
 
 	makeJSONRequest(type, url, data = {}) {
@@ -37,17 +38,17 @@ export default class Client {
 		const post = type === "PATCH" || type === "POST" || type === "PUT";
 		const defer = q.defer();
 
-		log(this.baseUrl + getUrl("/" + url, data));
+		log(this.baseUrl + getUrl(this.prefix + url, data));
 
 		request({
 			url,
-			baseUrl: this.baseUrl,
+			baseUrl: this.baseUrl + this.prefix,
 			method: type,
 			[post ? "body" : "qs"]: data,
 			json: true,
 			headers: {
 				"X-ABL-Access-Key": this.publicKey,
-				"X-ABL-Signature": sign(this.privateKey, getUrl("/" + url, data), timestamp),
+				"X-ABL-Signature": sign(this.privateKey, getUrl(this.prefix + url, data), timestamp),
 				"X-ABL-Date": timestamp,
 				"Origin": this.baseUrl,
 				"Content-Type": "application/json; charset=utf-8"
@@ -102,6 +103,22 @@ export default class Client {
 		return this.makeJSONRequest("POST", "coupons", data);
 	}
 
+	getCouponById(data) {
+		const {couponId} = data;
+		return this.makeJSONRequest("GET", "coupon/" + couponId);
+	}
+
+	editCoupon(data) {
+		const {_id, ...other} = data;
+		return this.makeJSONRequest("PUT", "coupons/" + _id, other);
+	}
+
+	// Customer
+
+	getCustomers(data) {
+		return this.makeJSONRequest("GET", "customers", data);
+	}
+
 	// Event
 
 	getEvent(data) {
@@ -129,7 +146,23 @@ export default class Client {
 		return this.makeJSONRequest("DELETE", "events/" + eventInstanceId + "/guides/" + guide);
 	}
 
+	getDailyEvents(data) {
+		const {date} = data;
+		return this.makeJSONRequest("GET", "events/daily/" + date);
+	}
+
+	// Guide
+
+	getGuidesEvents(data) {
+		const {_id, ...other} = data;
+		return this.makeJSONRequest("GET", "guides/" + _id + "/events", other);
+	}
+
 	// TimeSlot
+
+	getTimeSlot() {
+		return this.makeJSONRequest("GET", "timeslots" + guide, data);
+	}
 
 	addGuideToTimeSlot(data) {
 		const {eventId, guide, ...other} = data;
@@ -144,13 +177,6 @@ export default class Client {
 	removeTimeSlot(data) {
 		const {eventId} = data;
 		return this.makeJSONRequest("DELETE", "timeslots/" + eventId);
-	}
-
-	// Guide
-
-	getGuidesEvents(data) {
-		const {_id, ...other} = data;
-		return this.makeJSONRequest("GET", "guides/" + _id + "/events", other);
 	}
 
 	// User
@@ -169,24 +195,14 @@ export default class Client {
 		return this.makeJSONRequest("GET", "metrics/overview", data);
 	}
 
-
-	getCouponById(data) {
-		const {couponId} = data;
-		return this.makeJSONRequest("GET", "coupon/" + couponId);
-	}
-
-	editCoupon(data) {
-		const {_id, ...other} = data;
-		return this.makeJSONRequest("PUT", "coupons/" + _id, other);
-	}
-
-	getRoaster(data) {
+	getPDFRoaster(data) {
 		const {eventInstanceId} = data;
 		return this.makeJSONRequest("GET", "events/" + eventInstanceId + "/roster");
 	}
 
-	getCustomers(data) {
-		return this.makeJSONRequest("GET", "customers", data);
+	getCSVRoaster(data) {
+		const {eventInstanceId} = data;
+		return this.makeJSONRequest("GET", "events/" + eventInstanceId + "/csv");
 	}
 
 	book(data) {

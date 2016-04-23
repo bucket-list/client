@@ -20,18 +20,19 @@
     "url": "https://github.com/bucket-list/abl-client/issues"
   },
   "dependencies": {
-    "abl-utils": "git+ssh://github.com/bucket-list/utils.git#0.2.4",
+    "abl-utils": "git+ssh://github.com/bucket-list/utils.git#v1.0.0",
     "debug": "2.2.0",
     "q": "1.4.1",
-    "request": "2.69.0"
+    "request": "2.72.0"
   },
   "devDependencies": {
-    "abl-common": "git+ssh://github.com/bucket-list/common.git#6.1.2",
-    "abl-connect": "git+ssh://github.com/bucket-list/connect.git#0.2.0",
-    "babel-config-trejgun": "git://github.com/TrejGun/babel-config-trejgun.git#v0.0.3",
-    "eslint-config-trejgun": "git://github.com/TrejGun/eslint-config-trejgun.git#0.0.2",
+    "abl-common": "git+ssh://github.com/bucket-list/common.git#v6.2.11",
+    "abl-constants": "git+ssh://github.com/bucket-list/constants.git#v0.3.0",
+    "babel-config-trejgun": "git://github.com/TrejGun/babel-config-trejgun.git#v0.0.8",
+    "eslint-config-trejgun": "git://github.com/TrejGun/eslint-config-trejgun.git#v0.0.3",
     "mocha": "2.4.5",
-    "power-assert": "1.2.0"
+    "moment-config-trejgun": "git://github.com/TrejGun/moment-config-trejgun.git#v0.0.4",
+    "power-assert": "1.3.1"
   },
   "engines": {
     "node": ">=5.0.0"
