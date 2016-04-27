@@ -156,8 +156,7 @@ describe("Controller Booking", () => {
 		after(cleanUp);
 	});
 
-	// requires: NODE_ENV=production npm run api:source
-	describe.only("#insert (stripe errors)", () => {
+	describe("#insert (stripe errors)", () => {
 		const mapping = [
 			{number: cardErrors[9], code: "card_declined", message: "Your card was declined."},
 			{number: cardErrors[10], code: "incorrect_cvc", message: "Your card\'s security code is incorrect."},
