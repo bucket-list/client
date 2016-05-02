@@ -4,6 +4,7 @@ import q from "q";
 import debug from "debug";
 import assert from "power-assert";
 import moment from "moment-config-trejgun";
+import {times} from "lodash";
 import {attendees} from "abl-constants/build/misc";
 import {startTime, endTime} from "abl-constants/build/date";
 import {AAPArray, chargeArray, customerObject, cardObject} from "abl-constants/build/objects";
@@ -30,8 +31,8 @@ describe("Controller Booking", () => {
 	const mailController = new MailController();
 	const stripeErrorController = new StripeErrorController();
 
-	describe("#insert", () => {
-		let stripeToken;
+	describe("#insert (widget)", () => {
+		let stripeSuccessTokens;
 
 		before(() =>
 			mockInChain([{
@@ -111,16 +112,18 @@ describe("Controller Booking", () => {
 					Question: "o2o"
 				},
 				count: 1
+			}, {
+				model: "MessageDefault"
 			}])
 				.then(result => {
 					data = result;
-					return SAPI.tokenCreate({
+					return q.all(times(1, () => SAPI.tokenCreate({
 						card: cardObject({
 							number: cardNumbers[5]
 						})
-					})
-						.then(token => {
-							stripeToken = token;
+					})))
+						.then((successTokens) => {
+							stripeSuccessTokens = successTokens;
 						});
 				})
 		);
@@ -133,7 +136,7 @@ describe("Controller Booking", () => {
 				eventInstanceId,
 				paymentMethod: TransactionController.paymentMethods.credit,
 				currency: defaultCurrency,
-				stripeToken: stripeToken.id,
+				stripeToken: stripeSuccessTokens[0].id,
 				couponId: data.Coupon[0].couponId,
 				attendees: {
 					[data.Charge[0]._id]: [null],
@@ -149,7 +152,7 @@ describe("Controller Booking", () => {
 			})
 				.then(booking => {
 					log(booking);
-					assert.ok(booking);
+					assert.equal(booking.eventInstanceId, eventInstanceId);
 				});
 		});
 
