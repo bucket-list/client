@@ -195,15 +195,11 @@ export default class Client {
 		return this.makeJSONRequest("GET", "metrics/overview", data);
 	}
 
-	getPDFRoaster(data) {
-		const {eventInstanceId} = data;
-		return this.makeJSONRequest("GET", "events/" + eventInstanceId + "/roster");
+	getRoster(data) {
+		const {type, ...other} = data;
+		return this.makeJSONRequest("GET", "roster/" + type, other);
 	}
 
-	getCSVRoaster(data) {
-		const {eventInstanceId} = data;
-		return this.makeJSONRequest("GET", "events/" + eventInstanceId + "/csv");
-	}
 
 	book(data) {
 		return this.makeJSONRequest("POST", "bookings", data);
