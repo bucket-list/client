@@ -1,9 +1,10 @@
-"use strict";
-
 import debug from "debug";
 import assert from "power-assert";
 import {mockInChain, cleanUp} from "abl-common/build/test-utils/flow";
 import {date} from "abl-constants/build/date";
+import {getEventInstanceId} from "abl-utils/build/event";
+import langController from "abl-lang/bundle/en/controller";
+import langNotFound from "abl-lang/bundle/en/not-found";
 import Client from "../../source/index";
 
 import ApiKeyController from "abl-common/build/controllers/operator/api-key";
@@ -13,7 +14,7 @@ const log = debug("test:pdf");
 
 let data;
 
-describe("Controller PDF", () => {
+describe("PDF", () => {
 	describe("#roster", () => {
 		before(() =>
 			mockInChain([{
@@ -90,16 +91,16 @@ describe("Controller PDF", () => {
 				requires: {
 					Operator: "m2o",
 					Guide: "m2m",
-					Booking: [[0, 1, 2], [3], [4]]
+					Booking: [[0, 1, 2], [3], [4], []]
 				},
-				count: 3
+				count: 4
 			}, {
 				model: "TimeSlot",
 				requires: {
 					Operator: "m2o",
-					Event: [[0], [1, 2]]
+					Event: [[0], [1, 2, 3], []]
 				},
-				count: 2
+				count: 3
 			}, {
 				model: "Activity",
 				requires: {
@@ -252,6 +253,45 @@ describe("Controller PDF", () => {
 				});
 		});
 
+		it("should create PDF roster event/no bookings", () => {
+			const client = new Client(data.ApiKey[0].publicKey, data.ApiKey[0].privateKey);
+			return client.getRoster({
+				type: "pdf",
+				eventInstanceId: data.Event[3].eventInstanceId
+			})
+				.then(() => {
+					assert(true);
+					log("OK");
+				});
+		});
+
+		it("should throw `time-slot-not-found`", () => {
+			const client = new Client(data.ApiKey[0].publicKey, data.ApiKey[0].privateKey);
+			return client.getRoster({
+				type: "pdf",
+				eventInstanceId: getEventInstanceId("crap", date)
+			})
+				.catch(e => {
+					assert.equal(e.status, 404);
+					assert.equal(e.errors.length, 1);
+					assert.equal(e.errors[0], langNotFound["time-slot"]);
+				})
+				.then(assert.ifError);
+		});
+
+		it("should throw `roster-no-events-matching-criteria`", () => {
+			const client = new Client(data.ApiKey[0].publicKey, data.ApiKey[0].privateKey);
+			return client.getRoster({
+				type: "pdf",
+				timeslot: data.TimeSlot[2]._id.toString()
+			})
+				.catch(e => {
+					assert.equal(e.status, 400);
+					assert.equal(e.errors.length, 1);
+					assert.equal(e.errors[0], langController["roster-no-events-matching-criteria"]);
+				})
+				.then(assert.ifError);
+		});
 		after(cleanUp);
 	});
 });

@@ -1,5 +1,3 @@
-"use strict";
-
 import debug from "debug";
 import assert from "power-assert";
 import moment from "moment-config-trejgun";
@@ -15,7 +13,7 @@ const log = debug("test:booking");
 
 let data;
 
-describe("Controller Event", () => {
+describe("Event", () => {
 	describe("#getDailyEvents", () => {
 		before(() =>
 			mockInChain([{
@@ -33,30 +31,30 @@ describe("Controller Event", () => {
 					Operator: "m2o"
 				},
 				data: [{
-					startTime: moment(startTime).add(1, "d").toDate(),
-					endTime: moment(endTime).add(1, "d").toDate()
+					startTime: moment(startTime).add(1, "d"),
+					endTime: moment(endTime).add(1, "d")
 				}, {
-					startTime: moment(startTime).add(2, "d").toDate(),
-					endTime: moment(endTime).add(2, "d").toDate(),
+					startTime: moment(startTime).add(2, "d"),
+					endTime: moment(endTime).add(2, "d"),
 					status: EventController.statuses.inactive
 				}, {
-					startTime: moment(startTime).add(3, "d").toDate(),
-					endTime: moment(endTime).add(3, "d").toDate()
+					startTime: moment(startTime).add(3, "d"),
+					endTime: moment(endTime).add(3, "d")
 				}, {
-					startTime: moment(startTime).add(1, "d").toDate(),
-					endTime: moment(endTime).add(1, "d").toDate()
+					startTime: moment(startTime).add(1, "d"),
+					endTime: moment(endTime).add(1, "d")
 				}, {
-					startTime: moment(startTime).add(2, "d").toDate(),
-					endTime: moment(endTime).add(2, "d").toDate()
+					startTime: moment(startTime).add(2, "d"),
+					endTime: moment(endTime).add(2, "d")
 				}, {
-					startTime: moment(startTime).add(3, "d").toDate(),
-					endTime: moment(endTime).add(3, "d").toDate()
+					startTime: moment(startTime).add(3, "d"),
+					endTime: moment(endTime).add(3, "d")
 				}, {
-					startTime: moment(startTime).add(1, "d").toDate(),
-					endTime: moment(endTime).add(1, "d").toDate()
+					startTime: moment(startTime).add(1, "d"),
+					endTime: moment(endTime).add(1, "d")
 				}, {
-					startTime: moment(startTime).add(3, "d").toDate(),
-					endTime: moment(endTime).add(3, "d").toDate()
+					startTime: moment(startTime).add(3, "d"),
+					endTime: moment(endTime).add(3, "d")
 				}]
 			}, {
 				model: "TimeSlot",

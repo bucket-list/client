@@ -1,5 +1,3 @@
-"use strict";
-
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
 import q from "q";
@@ -50,7 +48,7 @@ export default class Client {
 				"X-ABL-Access-Key": this.publicKey,
 				"X-ABL-Signature": sign(this.privateKey, getUrl(this.prefix + url, data), timestamp),
 				"X-ABL-Date": timestamp,
-				"Origin": this.baseUrl,
+				"Origin": this.baseUrl, // eslint-disable-line quote-props
 				"Content-Type": "application/json; charset=utf-8"
 			}
 		}, (error, response, body) => {
@@ -73,30 +71,30 @@ export default class Client {
 		return this.makeJSONRequest("GET", "activities", data);
 	}
 
-	createActivities(data) {
+	createActivity(data) {
 		return this.makeJSONRequest("POST", "activities", data);
 	}
 
 	getActivity(data) {
 		const {_id} = data;
-		return this.makeJSONRequest("GET", "activities/" + _id);
+		return this.makeJSONRequest("GET", `activities/${_id}`);
 	}
 
 	editActivity(data) {
 		const {_id, ...other} = data;
-		return this.makeJSONRequest("PUT", "activities/" + _id, other);
+		return this.makeJSONRequest("PUT", `activities/${_id}`, other);
 	}
 
 	removeActivity(data) {
 		const {_id} = data;
-		return this.makeJSONRequest("DELETE", "activities/" + _id);
+		return this.makeJSONRequest("DELETE", `activities/${_id}`);
 	}
 
 	// Coupon
 
 	getCoupon(data) {
 		const {couponId} = data;
-		return this.makeJSONRequest("GET", "coupons/" + couponId);
+		return this.makeJSONRequest("GET", `coupons/${couponId}`);
 	}
 
 	createCoupon(data) {
@@ -105,12 +103,12 @@ export default class Client {
 
 	getCouponById(data) {
 		const {couponId} = data;
-		return this.makeJSONRequest("GET", "coupon/" + couponId);
+		return this.makeJSONRequest("GET", `coupon/${couponId}`);
 	}
 
 	editCoupon(data) {
 		const {_id, ...other} = data;
-		return this.makeJSONRequest("PUT", "coupons/" + _id, other);
+		return this.makeJSONRequest("PUT", `coupons/${_id}`, other);
 	}
 
 	// Customer
@@ -123,60 +121,69 @@ export default class Client {
 
 	getEvent(data) {
 		const {eventInstanceId} = data;
-		return this.makeJSONRequest("GET", "events/" + eventInstanceId);
+		return this.makeJSONRequest("GET", `events/${eventInstanceId}`);
 	}
 
 	editEvent(data) {
 		const {eventInstanceId, ...other} = data;
-		return this.makeJSONRequest("PUT", "events/" + eventInstanceId, other);
+		return this.makeJSONRequest("PUT", `events/${eventInstanceId}`, other);
 	}
 
 	removeEvent(data) {
 		const {eventInstanceId} = data;
-		return this.makeJSONRequest("DELETE", "events/" + eventInstanceId);
+		return this.makeJSONRequest("DELETE", `events/${eventInstanceId}`);
 	}
 
 	addGuideToEvent(data) {
 		const {eventInstanceId, guide} = data;
-		return this.makeJSONRequest("POST", "events/" + eventInstanceId + "/guides/" + guide);
+		return this.makeJSONRequest("POST", `events/${eventInstanceId}/guides/${guide}`);
 	}
 
 	removeGuideFromEvent(data) {
 		const {eventInstanceId, guide} = data;
-		return this.makeJSONRequest("DELETE", "events/" + eventInstanceId + "/guides/" + guide);
+		return this.makeJSONRequest("DELETE", `events/${eventInstanceId}/guides/${guide}`);
 	}
 
 	getDailyEvents(data) {
 		const {date} = data;
-		return this.makeJSONRequest("GET", "events/daily/" + date);
+		return this.makeJSONRequest("GET", `events/daily/${date}`);
 	}
 
 	// Guide
 
 	getGuidesEvents(data) {
 		const {_id, ...other} = data;
-		return this.makeJSONRequest("GET", "guides/" + _id + "/events", other);
+		return this.makeJSONRequest("GET", `guides/${_id}/events`, other);
+	}
+
+	getById(data) {
+		const {_id} = data;
+		return this.makeJSONRequest("GET", `guides/${_id}`);
+	}
+
+	getGuides(data) {
+		return this.makeJSONRequest("GET", "guides", data);
 	}
 
 	// TimeSlot
 
-	getTimeSlot() {
-		return this.makeJSONRequest("GET", "timeslots" + guide, data);
+	getTimeSlot(data) {
+		return this.makeJSONRequest("GET", "timeslots", data);
 	}
 
 	addGuideToTimeSlot(data) {
 		const {eventId, guide, ...other} = data;
-		return this.makeJSONRequest("POST", "timeslots/" + eventId + "/guides/" + guide, other);
+		return this.makeJSONRequest("POST", `timeslots/${eventId}/guides/${guide}`, other);
 	}
 
 	removeGuideFromTimeSlot(data) {
 		const {eventId, guide, ...other} = data;
-		return this.makeJSONRequest("POST", "timeslots/" + eventId + "/guides/" + guide, other);
+		return this.makeJSONRequest("POST", `timeslots/${eventId}/guides/${guide}`, other);
 	}
 
 	removeTimeSlot(data) {
 		const {eventId} = data;
-		return this.makeJSONRequest("DELETE", "timeslots/" + eventId);
+		return this.makeJSONRequest("DELETE", `timeslots/${eventId}`);
 	}
 
 	// User
@@ -197,11 +204,21 @@ export default class Client {
 
 	getRoster(data) {
 		const {type, ...other} = data;
-		return this.makeJSONRequest("GET", "roster/" + type, other);
+		return this.makeJSONRequest("GET", `roster/${type}`, other);
 	}
 
+	// Booking
 
-	book(data) {
+	createBooking(data) {
 		return this.makeJSONRequest("POST", "bookings", data);
+	}
+
+	getOfflineData(data) {
+		return this.makeJSONRequest("GET", "bookings/getOfflineData", data);
+	}
+
+	getByEventInstanceId(data) {
+		const {eventInstanceId, ...other} = data;
+		return this.makeJSONRequest("GET", `bookings/${eventInstanceId}`, other);
 	}
 }

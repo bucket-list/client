@@ -1,5 +1,3 @@
-"use strict";
-
 import debug from "debug";
 import assert from "power-assert";
 import {mockInChain, cleanUp} from "abl-common/build/test-utils/flow";
@@ -12,7 +10,7 @@ const log = debug("test:coupon");
 
 let data;
 
-describe("Controller Coupon", () => {
+describe("Coupon", () => {
 	describe("#get", () => {
 		before(() =>
 			mockInChain([{

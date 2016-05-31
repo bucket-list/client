@@ -1,5 +1,3 @@
-"use strict";
-
 import q from "q";
 import debug from "debug";
 import assert from "power-assert";
@@ -26,7 +24,7 @@ const log = debug("test:booking");
 
 let data;
 
-describe("Controller Booking", () => {
+describe("Booking", () => {
 	const bookingController = new BookingController();
 	const mailController = new MailController();
 	const stripeErrorController = new StripeErrorController();
@@ -79,8 +77,8 @@ describe("Controller Booking", () => {
 					Operator: "o2o"
 				},
 				data: [{
-					startTime: moment(startTime).add(1, "d").toDate(),
-					endTime: moment(endTime).add(1, "d").toDate()
+					startTime: moment(startTime).add(3, "d"),
+					endTime: moment(endTime).add(3, "d")
 				}]
 			}, {
 				model: "TimeSlot",
@@ -92,8 +90,8 @@ describe("Controller Booking", () => {
 					Aap: [[0, 1, 2]]
 				},
 				data: [{
-					startTime: moment(startTime).add(-1, "d").toDate(),
-					endTime: moment(endTime).add(-1, "d").toDate(),
+					startTime: moment(startTime).add(-1, "d"),
+					endTime: moment(endTime).add(-1, "d"),
 					maxOcc: attendees * 2
 				}]
 			}, {
@@ -112,8 +110,6 @@ describe("Controller Booking", () => {
 					Question: "o2o"
 				},
 				count: 1
-			}, {
-				model: "MessageDefault"
 			}])
 				.then(result => {
 					data = result;
@@ -131,13 +127,14 @@ describe("Controller Booking", () => {
 		it("should create booking (credit)", () => {
 			const eventInstanceId = data.Event[0].eventInstanceId;
 			const client = new Client(data.ApiKey[0].publicKey, data.ApiKey[0].privateKey);
-			return client.book({
+			return client.createBooking({
 				...customerObject(),
 				eventInstanceId,
 				paymentMethod: TransactionController.paymentMethods.credit,
 				currency: defaultCurrency,
 				stripeToken: stripeSuccessTokens[0].id,
 				couponId: data.Coupon[0].couponId,
+				amount: 0,
 				attendees: {
 					[data.Charge[0]._id]: [null],
 					[data.Charge[1]._id]: [null],
@@ -156,13 +153,13 @@ describe("Controller Booking", () => {
 				});
 		});
 
-		after(cleanUp);
+		// after(cleanUp);
 	});
 
 	describe("#insert (stripe errors)", () => {
 		const mapping = [
 			{number: cardErrors[9], code: "card_declined", message: "Your card was declined."},
-			{number: cardErrors[10], code: "incorrect_cvc", message: "Your card\'s security code is incorrect."},
+			{number: cardErrors[10], code: "incorrect_cvc", message: "Your card's security code is incorrect."},
 			{number: cardErrors[11], code: "expired_card", message: "Your card has expired."},
 			{number: cardErrors[12], code: "processing_error", message: "An error occurred while processing your card. Try again in a little bit."}
 		];
@@ -201,8 +198,8 @@ describe("Controller Booking", () => {
 					Operator: "o2o"
 				},
 				data: [{
-					startTime: moment(startTime).add(1, "d").toDate(),
-					endTime: moment(endTime).add(1, "d").toDate()
+					startTime: moment(startTime).add(1, "d"),
+					endTime: moment(endTime).add(1, "d")
 				}]
 			}, {
 				model: "TimeSlot",
@@ -212,8 +209,8 @@ describe("Controller Booking", () => {
 					Charge: [[3, 4, 5], [3, 4, 5]]
 				},
 				data: [{
-					startTime: moment(startTime).add(-1, "d").toDate(),
-					endTime: moment(endTime).add(-1, "d").toDate()
+					startTime: moment(startTime).add(-1, "d"),
+					endTime: moment(endTime).add(-1, "d")
 				}]
 			}, {
 				model: "Question",
@@ -231,8 +228,6 @@ describe("Controller Booking", () => {
 					Question: [[0, 1]]
 				},
 				count: 1
-			}, {
-				model: "MessageDefault"
 			}])
 				.then(result => {
 					data = result;
@@ -256,7 +251,7 @@ describe("Controller Booking", () => {
 					.then(token => {
 						const eventInstanceId = data.Event[0].eventInstanceId;
 						const client = new Client(data.ApiKey[0].publicKey, data.ApiKey[0].privateKey);
-						return client.book({
+						return client.createBooking({
 							...customerObject(),
 							eventInstanceId,
 							paymentMethod: TransactionController.paymentMethods.credit,

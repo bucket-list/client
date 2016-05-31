@@ -1,5 +1,3 @@
-"use strict";
-
 Error.stackTraceLimit = Infinity;
 
 const debug = require("debug");
