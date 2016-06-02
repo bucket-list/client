@@ -8,6 +8,7 @@ import langNotFound from "abl-lang/bundle/en/not-found";
 import Client from "../../source/index";
 
 import ApiKeyController from "abl-common/build/controllers/operator/api-key";
+import BookingController from "abl-common/build/controllers/operator/booking";
 
 
 const log = debug("test:pdf");
@@ -79,12 +80,19 @@ describe("PDF", () => {
 					Transaction: "o2o",
 					Answer: [[0], [0, 1], [], [0], [1]]
 				},
-				data: [{}, {
-					checkin: new Date()
-				}, {}, {
-					checkin: new Date()
+				data: [{
+					status: BookingController.statuses.unpaid
 				}, {
-					checkin: new Date()
+					checkin: new Date(),
+					status: BookingController.statuses.paid
+				}, {
+					status: BookingController.statuses.paid
+				}, {
+					checkin: new Date(),
+					status: BookingController.statuses.paid
+				}, {
+					checkin: new Date(),
+					status: BookingController.statuses.paid
 				}]
 			}, {
 				model: "Event",
