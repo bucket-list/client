@@ -87,7 +87,7 @@ describe("Event", () => {
 		after(cleanUp);
 	});
 
-	describe.only("#addGuide", () => {
+	describe("#addGuide", () => {
 		before(() =>
 			mockInChain([{
 				model: "ApiKey",
@@ -161,6 +161,6 @@ describe("Event", () => {
 				});
 		});
 
-		//after(cleanUp);
+		after(cleanUp);
 	});
 });
