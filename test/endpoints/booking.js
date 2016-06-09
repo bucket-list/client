@@ -131,7 +131,6 @@ describe("Booking", () => {
 				...customerObject(),
 				eventInstanceId,
 				paymentMethod: TransactionController.paymentMethods.credit,
-				currency: defaultCurrency,
 				stripeToken: stripeSuccessTokens[0].id,
 				couponId: data.Coupon[0].couponId,
 				amount: 0,
@@ -153,7 +152,124 @@ describe("Booking", () => {
 				});
 		});
 
-		// after(cleanUp);
+		after(cleanUp);
+	});
+
+	describe("#insert (coupon)", () => {
+		let stripeSuccessTokens;
+
+		before(() =>
+			mockInChain([{
+				model: "Payment",
+				count: 1
+			}, {
+				model: "ApiKey",
+				count: 1
+			}, {
+				model: "Location",
+				count: 1
+			}, {
+				model: "Operator",
+				requires: {
+					Location: "o2o",
+					ApiKey: "o2o",
+					Payment: "o2o"
+				},
+				count: 1
+			}, {
+				model: "Charge",
+				data: [
+					chargeArray.vat,
+					chargeArray.visa,
+					chargeArray.food,
+					chargeArray.adult,
+					chargeArray.youth,
+					chargeArray.child
+				]
+			}, {
+				model: "Event",
+				requires: {
+					Operator: "m2o"
+				},
+				data: [{
+					startTime: moment(startTime).add(1, "d"),
+					endTime: moment(endTime).add(1, "d")
+				}]
+			}, {
+				model: "TimeSlot",
+				requires: {
+					Event: "o2o",
+					Operator: "o2o",
+					Charge: [[3, 4, 5]]
+				},
+				count: 1
+			}, {
+				model: "Question",
+				requires: {
+					Operator: "m2o"
+				},
+				count: 2
+			}, {
+				model: "Activity",
+				requires: {
+					Location: "o2o",
+					Operator: "o2o",
+					TimeSlot: "o2o",
+					Charge: [[0, 1, 2]],
+					Question: "m2o"
+				},
+				count: 1
+			}, {
+				model: "Coupon",
+				requires: {
+					Operator: "m2o",
+					Activity: "m2o"
+				},
+				data: [{
+					amount: 20,
+					endTime: moment(endTime).add(5, "d"),
+					isTotal: false,
+					startTime: moment(startTime).add(0, "d"),
+					redemptions: 0,
+					maxRedemptions: 0,
+					percentage: true
+				}]
+			}])
+				.then(result => {
+					data = result;
+					return q.all(times(1, () => SAPI.tokenCreate({
+						card: cardObject()
+					})))
+						.then(successTokens => {
+							stripeSuccessTokens = successTokens;
+						});
+				})
+		);
+
+		it("should create booking (coupon)", () => {
+			const eventInstanceId = data.Event[0].eventInstanceId;
+			const client = new Client(data.ApiKey[0].publicKey, data.ApiKey[0].privateKey);
+			return client.createBooking({
+				...customerObject(),
+				eventInstanceId,
+				paymentMethod: TransactionController.paymentMethods.credit,
+				stripeToken: stripeSuccessTokens[0].id,
+				couponId: data.Coupon[0].couponId,
+				amount: 0,
+				attendees: {
+					[data.Charge[3]._id]: [null]
+				},
+				answers: {
+					[data.Question[0]._id]: "answer 1"
+				}
+			})
+				.then(booking => {
+					console.log(booking);
+					assert.equal(booking.eventInstanceId, eventInstanceId);
+				});
+		});
+
+		after(cleanUp);
 	});
 
 	describe("#insert (stripe errors)", () => {
