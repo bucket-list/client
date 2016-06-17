@@ -26,7 +26,7 @@
     "request": "2.72.0"
   },
   "devDependencies": {
-    "abl-common": "git+ssh://github.com/bucket-list/common.git#v6.3.8",
+    "abl-common": "git+ssh://github.com/bucket-list/common.git#v6.3.34",
     "abl-constants": "git+ssh://github.com/bucket-list/constants.git#v0.3.7",
     "abl-lang": "git+ssh://github.com/bucket-list/lang.git#v0.3.17",
     "babel-config-trejgun": "git://github.com/TrejGun/babel-config-trejgun.git#v0.0.8",

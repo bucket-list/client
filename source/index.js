@@ -221,4 +221,11 @@ export default class Client {
 		const {eventInstanceId, ...other} = data;
 		return this.makeJSONRequest("GET", `bookings/${eventInstanceId}`, other);
 	}
+
+	// Transaction
+
+	partialRefund(data) {
+		const {_id, ...other} = data;
+		return this.makeJSONRequest("PATCH", `transaction/${_id}`, other);
+	}
 }
