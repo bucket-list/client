@@ -6,7 +6,7 @@ import {times} from "lodash";
 import {attendees} from "abl-constants/build/misc";
 import {startTime, endTime} from "abl-constants/build/date";
 import {AAPArray, chargeArray, customerObject, cardObject} from "abl-constants/build/objects";
-import {cardNumbers, cardErrors, defaultCurrency} from "abl-constants/build/stripe";
+import {cardNumbers, cardErrors} from "abl-constants/build/stripe";
 import {mockInChain, cleanUp} from "abl-common/build/test-utils/flow";
 
 import BookingController from "abl-common/build/controllers/operator/booking";

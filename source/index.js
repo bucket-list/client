@@ -111,10 +111,10 @@ export default class Client {
 		return this.makeJSONRequest("PUT", `coupons/${_id}`, other);
 	}
 
-	// Customer
+	// Clients
 
-	getCustomers(data) {
-		return this.makeJSONRequest("GET", "customers", data);
+	getClients(data) {
+		return this.makeJSONRequest("GET", "operators/clients", data);
 	}
 
 	// Event
@@ -151,18 +151,32 @@ export default class Client {
 
 	// Guide
 
+	getGuides(data) {
+		return this.makeJSONRequest("GET", "/operators/guide", data);
+	}
+
+	createGuide(data) {
+		return this.makeJSONRequest("POST", "/operators/guide", data);
+	}
+
+	getGuide(data) {
+		const {_id} = data;
+		return this.makeJSONRequest("GET", `operators/guide/${_id}`);
+	}
+
+	editGuide(data) {
+		const {_id} = data;
+		return this.makeJSONRequest("PUT", `operators/guide/${_id}`);
+	}
+
+	deleteGuide(data) {
+		const {_id} = data;
+		return this.makeJSONRequest("DELETE", `operators/guide/${_id}`);
+	}
+
 	getGuidesEvents(data) {
 		const {_id, ...other} = data;
-		return this.makeJSONRequest("GET", `guides/${_id}/events`, other);
-	}
-
-	getById(data) {
-		const {_id} = data;
-		return this.makeJSONRequest("GET", `guides/${_id}`);
-	}
-
-	getGuides(data) {
-		return this.makeJSONRequest("GET", "guides", data);
+		return this.makeJSONRequest("GET", `operators/guide/${_id}/events`, other);
 	}
 
 	// TimeSlot
