@@ -138,21 +138,25 @@ describe("Guide", () => {
 		after(cleanUp);
 	});
 
-	describe("#getById", () => {
+	describe("#getGuide", () => {
 		before(() =>
 			mockInChain([{
 				model: "ApiKey",
 				count: 1
 			}, {
-				model: "Operator",
+				model: "Manager",
 				requires: {
 					ApiKey: "o2o"
 				},
 				count: 1
 			}, {
 				model: "Guide",
+				count: 1
+			}, {
+				model: "Operator",
 				requires: {
-					Operator: "m2o"
+					Guide: "o2o",
+					Manager: "o2o"
 				},
 				count: 1
 			}, {
@@ -194,7 +198,7 @@ describe("Guide", () => {
 
 		it("should get guide", () => {
 			const client = new Client(data.ApiKey[0].publicKey, data.ApiKey[0].privateKey);
-			return client.getById({_id: data.Guide[0]._id})
+			return client.getGuide({_id: data.Guide[0]._id})
 				.then(guide => {
 					log("OK", guide);
 					assert.ok(guide.email);
