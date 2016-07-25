@@ -152,11 +152,11 @@ export default class Client {
 	// Guide
 
 	getGuides(data) {
-		return this.makeJSONRequest("GET", "/operators/guide", data);
+		return this.makeJSONRequest("GET", "operators/guide", data);
 	}
 
 	createGuide(data) {
-		return this.makeJSONRequest("POST", "/operators/guide", data);
+		return this.makeJSONRequest("POST", "operators/guide", data);
 	}
 
 	getGuide(data) {

@@ -210,17 +210,21 @@ describe("Guide", () => {
 				model: "ApiKey",
 				count: 1
 			}, {
-				model: "Operator",
+				model: "Manager",
 				requires: {
 					ApiKey: "o2o"
 				},
 				count: 1
 			}, {
 				model: "Guide",
+				count: 1
+			}, {
+				model: "Operator",
 				requires: {
-					Operator: "m2o"
+					Guide: "o2o",
+					Manager: "o2o"
 				},
-				count: 5
+				count: 1
 			}])
 				.then(result => {
 					data = result;
@@ -229,17 +233,17 @@ describe("Guide", () => {
 
 		it("should get guides", () => {
 			const client = new Client(data.ApiKey[0].publicKey, data.ApiKey[0].privateKey);
-			return client.getGuides({pageSize: 3})
+			return client.getGuides()
 				.then(guides => {
 					log("OK", guides);
-					assert.equal(guides.list.length, 3);
+					assert.equal(guides.list.length, 2);
 				});
 		});
 
 		after(cleanUp);
 	});
 
-	describe.only("#delete", () => {
+	describe("#delete", () => {
 		before(() =>
 			mockInChain([{
 				model: "ApiKey",
@@ -332,7 +336,7 @@ describe("Guide", () => {
 				});
 		});
 
-		it.only("should throw `access-denied` (permissions)", () => {
+		it("should throw `access-denied` (permissions)", () => {
 			const client = new Client(data.ApiKey[3].publicKey, data.ApiKey[3].privateKey);
 			return client.deleteGuide({
 				_id: data.Guide[4]._id
