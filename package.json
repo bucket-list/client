@@ -21,21 +21,22 @@
   },
   "dependencies": {
     "abl-utils": "git+ssh://github.com/bucket-list/utils.git#v1.0.7",
-    "debug": "2.2.0",
     "q": "1.4.1",
     "request": "2.72.0"
   },
   "devDependencies": {
     "abl-common": "git+ssh://github.com/bucket-list/common.git#v6.3.34",
     "abl-common": "git+ssh://github.com/bucket-list/common.git#89072a635202b0b391eab8ced1e8bfc995cf508e",
+    "abl-common": "file:../common",
     "abl-constants": "git+ssh://github.com/bucket-list/constants.git#v0.3.7",
     "abl-constants": "git+ssh://github.com/bucket-list/constants.git#b11c132e9acdcd58f89d3deab1811acdba8697df",
     "abl-lang": "git+ssh://github.com/bucket-list/lang.git#v0.3.17",
     "babel-config-trejgun": "git://github.com/TrejGun/babel-config-trejgun.git#v0.0.10",
     "eslint-config-trejgun": "git://github.com/TrejGun/eslint-config-trejgun.git#v0.0.4",
-    "mocha": "2.5.3",
+    "mocha": "3.0.0",
     "moment-config-trejgun": "git://github.com/TrejGun/moment-config-trejgun.git#v0.0.6",
-    "power-assert": "1.4.1"
+    "power-assert": "1.4.1",
+    "winston": "2.2.0"
   },
   "engines": {
     "node": ">=6.0.0"

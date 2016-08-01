@@ -1,14 +1,13 @@
-Error.stackTraceLimit = Infinity;
+import "abl-common/build/configs/winston";
+import winston from "winston";
 
-const debug = require("debug");
-debug.enable("log:*");
-if (process.env.ABL_DEBUG === "true") {
-	debug.enable("test:*");
-}
+process.env.NODE_ENV = process.env.NODE_ENV || "test";
+
+Error.stackTraceLimit = Infinity;
 
 const q = require("q");
 q.longStackSupport = true;
 
 process.on("uncaughtException", (exception) => {
-	debug("log:mocha")(exception);
+	winston.error(exception);
 });

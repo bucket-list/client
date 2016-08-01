@@ -2,15 +2,8 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
 import q from "q";
 import request from "request";
-import debug from "debug";
 import {sign, getUrl} from "abl-utils/build/api";
 
-
-if (process.env.ABL_DEBUG === "true") {
-	debug.enable("abl-client:*");
-}
-
-const log = debug("abl-client:request");
 
 export default class Client {
 
@@ -36,7 +29,7 @@ export default class Client {
 		const post = type === "PATCH" || type === "POST" || type === "PUT";
 		const defer = q.defer();
 
-		log(this.baseUrl + getUrl(this.prefix + url, data));
+		// console.log(this.baseUrl + getUrl(this.prefix + url, data));
 
 		request({
 			url,
@@ -225,6 +218,16 @@ export default class Client {
 
 	createBooking(data) {
 		return this.makeJSONRequest("POST", "bookings", data);
+	}
+
+	editBooking(data) {
+		const {bookingId, ...other} = data;
+		return this.makeJSONRequest("PUT", `bookings/${bookingId}`, other);
+	}
+
+	patchBooking(data) {
+		const {bookingId, ...other} = data;
+		return this.makeJSONRequest("PATCH", `bookings/${bookingId}`, other);
 	}
 
 	getOfflineData(data) {
