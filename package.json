@@ -26,8 +26,8 @@
   },
   "devDependencies": {
     "abl-common": "git+ssh://github.com/bucket-list/common.git#v6.3.34",
-    "abl-common": "git+ssh://github.com/bucket-list/common.git#89072a635202b0b391eab8ced1e8bfc995cf508e",
     "abl-common": "file:../common",
+    "abl-common": "git+ssh://github.com/bucket-list/common.git#470361e87e7e42a4fe60c90fad46badc6bb73cf2",
     "abl-constants": "git+ssh://github.com/bucket-list/constants.git#v0.3.7",
     "abl-constants": "git+ssh://github.com/bucket-list/constants.git#b11c132e9acdcd58f89d3deab1811acdba8697df",
     "abl-lang": "git+ssh://github.com/bucket-list/lang.git#v0.3.17",
